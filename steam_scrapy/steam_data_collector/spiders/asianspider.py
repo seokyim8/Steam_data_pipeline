@@ -5,7 +5,7 @@ import scrapy
 class AsianspiderSpider(scrapy.Spider):
     name = "asian"
     allowed_domains = ["store.steampowered.com"]
-    urls = ["https://store.steampowered.com/"]
+    urls = ["https://store.steampowered.com/explore/new/"]
 
     def start_requests(self) -> Iterable[scrapy.Request]:
         for url in self.urls:

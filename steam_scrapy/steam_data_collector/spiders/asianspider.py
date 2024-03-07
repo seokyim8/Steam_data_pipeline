@@ -2,7 +2,7 @@ from typing import Iterable
 import scrapy
 from pathlib import Path
 import json
-
+import re
 
 
 class AsianspiderSpider(scrapy.Spider):
@@ -37,10 +37,19 @@ class AsianspiderSpider(scrapy.Spider):
         if num_of_reviews == None:
             num_of_reviews = 0
 
+        price = response.css("div.game_purchase_action_bg div.game_purchase_price.price::text").get()
+        if price == None:
+            price = response.css("div.game_purchase_action_bg div.discount_block.game_purchase_discount div.discount_final_price::text").get()
+        if price == None:
+            # Means game has no price since it has not been released yet
+            return None
+        price = price.strip()
+
         fetched = {"name": response.css("div[id='appHubAppName_responsive']::text").get(),
                "developer": header_grid_content[0], "publisher": header_grid_content[1], 
                "release_date": response.css("div[id='gameHeaderImageCtn'] div.grid_content.grid_date::text").get().strip(),
-               "genre": genre.strip(), "number_of_reviews": num_of_reviews}
+               "genre": genre.strip(), "number_of_reviews": num_of_reviews, "url": response.url,
+               "app_id": re.split("/",  response.url)[4], "price": price}
         
         arr = []
         with Path(self.save_file).open("r") as f:
@@ -51,3 +60,16 @@ class AsianspiderSpider(scrapy.Spider):
             json.dump(arr, f)
 
         yield fetched
+
+
+        # Note:
+        # Possible plots to generate:
+        # percentage of free to play games per genre, statistics per genre, user review positivity per genre, user review count per genre, 
+        # which genre is popular nowadays, how many new games today
+
+        # The ones that need data over a time period:
+        # new releases' price trend, genre releases' price trend per genre, new release's user review posivitiy/number of reviews trend,
+        # the nubmer of new releases per day trend
+
+        # Types of data we need to record:
+        # game_id, price, genre, review count, review positivity, record_fetched_date

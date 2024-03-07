@@ -16,6 +16,7 @@ class AsianspiderSpider(scrapy.Spider):
     scroll_freq = 5
 
     def start_requests(self) -> Iterable[scrapy.Request]:
+        """Returns scraped data from each specified url after initializing webscraping request to Steam. Assigns a chrome webdriver to self.driver."""
         # Resetting result file for webscraping process
         with Path(self.save_file).open("w") as f:
             json.dump([], f)
@@ -27,6 +28,7 @@ class AsianspiderSpider(scrapy.Spider):
             yield scrapy.Request(url = url, callback = self.parse)
 
     def parse(self, response):
+        """Returns scraped data from a specific starting url. Handles pages with infinite-scroll mechanisms through the usage of selenium."""
         # Scrolling:
         self.driver.get(response.url)
         for i in range(self.scroll_freq):
@@ -40,6 +42,7 @@ class AsianspiderSpider(scrapy.Spider):
         self.driver.quit()
     
     def parse_game(self, response):
+        """Returns data for each individual item in the list of new steam game releases. Transfers fetched data to self.save_file in .json format."""
         # This function includes the process of filtering out non-games (music dlc, for instance) and unreleased games
 
         header_grid_content = response.css("div[id='gameHeaderImageCtn'] div.grid_content a::text").getall()

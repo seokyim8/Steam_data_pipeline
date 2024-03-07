@@ -8,7 +8,7 @@ import re
 class AsianspiderSpider(scrapy.Spider):
     name = "asian"
     allowed_domains = ["store.steampowered.com"]
-    urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"]
+    urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"] # Steam link for new releases
     save_file = "steam_new_releases_info.json"
 
     def start_requests(self) -> Iterable[scrapy.Request]:
@@ -25,6 +25,8 @@ class AsianspiderSpider(scrapy.Spider):
             yield response.follow(link, callback = self.parse_game)
     
     def parse_game(self, response):
+        # This function includes the process of filtering out non-games (music dlc, for instance) and unreleased games
+
         header_grid_content = response.css("div[id='gameHeaderImageCtn'] div.grid_content a::text").getall()
         if len(header_grid_content) < 2: # Checks whether it is a game page or something else
             return None
@@ -45,11 +47,20 @@ class AsianspiderSpider(scrapy.Spider):
             return None
         price = price.strip()
 
+        review_summary = response.css("span.game_review_summary::text").get()
+        review_count = response.css("div.user_reviews_summary_bar span::text").getall()
+
+        if review_summary == None or review_count == None or len(review_count) < 2:
+            review_summary = "None"
+            review_count = 0
+        else:
+            review_count = review_count[1].replace("(","").replace(")","").split(" ")[0]
+
         fetched = {"name": response.css("div[id='appHubAppName_responsive']::text").get(),
                "developer": header_grid_content[0], "publisher": header_grid_content[1], 
                "release_date": response.css("div[id='gameHeaderImageCtn'] div.grid_content.grid_date::text").get().strip(),
-               "genre": genre.strip(), "number_of_reviews": num_of_reviews, "url": response.url,
-               "app_id": re.split("/",  response.url)[4], "price": price}
+               "genre": genre.strip(), "number_of_reviews": review_count, "url": response.url,
+               "app_id": re.split("/",  response.url)[4], "price": price, "review_summary": review_summary}
         
         arr = []
         with Path(self.save_file).open("r") as f:

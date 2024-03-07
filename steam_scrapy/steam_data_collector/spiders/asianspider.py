@@ -4,6 +4,8 @@ from pathlib import Path
 import json
 import re
 from datetime import date
+import time
+from selenium import webdriver
 
 
 class AsianspiderSpider(scrapy.Spider):
@@ -11,19 +13,31 @@ class AsianspiderSpider(scrapy.Spider):
     allowed_domains = ["store.steampowered.com"]
     urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"] # Steam link for new releases
     save_file = "steam_new_releases_info.json"
+    scroll_freq = 5
 
     def start_requests(self) -> Iterable[scrapy.Request]:
         # Resetting result file for webscraping process
         with Path(self.save_file).open("w") as f:
             json.dump([], f)
 
+        # Preparing for scrolling
+        self.driver = webdriver.Chrome()
+
         for url in self.urls:
             yield scrapy.Request(url = url, callback = self.parse)
 
     def parse(self, response):
-        links = response.css("div[id='search_resultsRows'] a::attr(href)").getall()
+        # Scrolling:
+        self.driver.get(response.url)
+        for i in range(self.scroll_freq):
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(1) # Waiting for page to load
+        selector = scrapy.Selector(text = self.driver.page_source)
+
+        links = selector.css("div[id='search_resultsRows'] a::attr(href)").getall()
         for link in links:
             yield response.follow(link, callback = self.parse_game)
+        self.driver.quit()
     
     def parse_game(self, response):
         # This function includes the process of filtering out non-games (music dlc, for instance) and unreleased games
@@ -86,3 +100,9 @@ class AsianspiderSpider(scrapy.Spider):
 
         # Types of data we need to record:
         # game_id, price, genre, review count, review positivity, record_fetched_date
+
+        # API for retreiving concurrent number of players for a steam game:
+        # https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=730
+
+        # Question:
+        # Do I need ENV varaible for AWS EC2 in case their devices do not have chrome? (since I use chrome for the selenium part of my code)

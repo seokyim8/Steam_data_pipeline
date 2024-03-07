@@ -3,6 +3,7 @@ import scrapy
 from pathlib import Path
 import json
 import re
+from datetime import date
 
 
 class AsianspiderSpider(scrapy.Spider):
@@ -60,7 +61,8 @@ class AsianspiderSpider(scrapy.Spider):
                "developer": header_grid_content[0], "publisher": header_grid_content[1], 
                "release_date": response.css("div[id='gameHeaderImageCtn'] div.grid_content.grid_date::text").get().strip(),
                "genre": genre.strip(), "number_of_reviews": review_count, "url": response.url,
-               "app_id": re.split("/",  response.url)[4], "price": price, "review_summary": review_summary}
+               "app_id": re.split("/",  response.url)[4], "price": price, "review_summary": review_summary,
+               "fetched_date": str(date.today())}
         
         arr = []
         with Path(self.save_file).open("r") as f:

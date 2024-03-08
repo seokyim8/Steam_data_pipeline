@@ -9,6 +9,7 @@ from datetime import date, datetime
 SPIDER_NAME = 'asian'
 
 def run_scraper():
+    """Runs the spider to scrape from Steam the data relating to newly released games."""
     subprocess.run(['scrapy', 'crawl', SPIDER_NAME])
 
 # Main Function

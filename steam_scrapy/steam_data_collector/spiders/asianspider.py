@@ -12,8 +12,8 @@ class AsianspiderSpider(scrapy.Spider):
     name = "asian"
     allowed_domains = ["store.steampowered.com"]
     urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"] # Steam link for new releases
-    save_file = "steam_new_releases_info.json"
-    scroll_freq = 0
+    save_file = "fetched_info.json" # Used for debugging
+    scroll_freq = 0 # TODO: CHANGE TO DESIRED NUMBER LATER!
 
     def start_requests(self) -> Iterable[scrapy.Request]:
         """Returns scraped data from each specified url after initializing webscraping request to Steam. Assigns a chrome webdriver to self.driver."""
@@ -22,7 +22,10 @@ class AsianspiderSpider(scrapy.Spider):
             json.dump([], f)
 
         # Preparing for scrolling
-        self.driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        options.add_argument('--profile-directory=Default')
+        self.driver = webdriver.Chrome(options = options)
 
         for url in self.urls:
             yield scrapy.Request(url = url, callback = self.parse)

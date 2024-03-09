@@ -21,10 +21,6 @@ class SteamDataCollectorPipeline:
             database = "STEAM"
         )
         self.cur = self.db.cursor()
-        # self.cur.execute("SELECT name from temp;")
-        # result = self.cur.fetchall()
-        # for row in result:
-        #     print(row)
     
     def process_item(self, item, spider):
         """Process the scraped data for individual games from Steam and upsert to the MYSQL table."""
@@ -59,28 +55,32 @@ class SteamDataCollectorPipeline:
             date = "0" + date if int(date) < 10 else date
 
             return "-".join([year, month, date])
+        def format_price(obj):
+            obj = obj.strip().replace("$","")
+            if not obj.replace(".","").isdigit():
+                obj = 0
+            return obj
 
         if item == None:
             return item
 
          # Cleaning Process of individual data entries: 
         item["release_date"] = format_release_date(item["release_date"])
-        item["price"] = item["price"].strip().replace("$","")
+        item["price"] = format_price(item["price"])
 
-
-        # TODO: I NEED TO CONVERT EVERYTHING TO STRING VALUES AND ALSO WRAP STRING FORMATS WITH SINGLE QUOTES
         self.cur.execute("INSERT IGNORE INTO new_games VALUES("
-                         + item["name"] + ","
-                         + item["developer"] + ","
-                         + item["publisher"] + ","
-                         + item["release_date"] + ","
-                         + item["genre"] + ","
-                         + item["number_of_reviews"] + ","
-                         + item["url"] + ","
-                         + item["app_id"] + ","
-                         + item["price"] + ","
-                         + item["review_summary"] + ","
-                         + item["fetched_date"] + ");")
+                         + f"'{item["name"]}',"
+                         + f"'{item["developer"]}',"
+                         + f"'{item["publisher"]}',"
+                         + f"'{item["release_date"]}',"
+                         + f"'{item["genre"]}',"
+                         + f"{item["number_of_reviews"]},"
+                         + f"'{item["url"]}',"
+                         + f"{item["app_id"]},"
+                         + f"{item["price"]},"
+                         + f"'{item["review_summary"]}',"
+                         + f"'{item["fetched_date"]}');")
+        self.db.commit()
 
         return item
     

@@ -13,7 +13,7 @@ class AsianspiderSpider(scrapy.Spider):
     allowed_domains = ["store.steampowered.com"]
     urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"] # Steam link for new releases
     save_file = "steam_new_releases_info.json"
-    scroll_freq = 1
+    scroll_freq = 0
 
     def start_requests(self) -> Iterable[scrapy.Request]:
         """Returns scraped data from each specified url after initializing webscraping request to Steam. Assigns a chrome webdriver to self.driver."""

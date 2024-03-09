@@ -1,2 +1,6 @@
 # AWS & MYSQL Credentials
 secrets.py
+
+# Docker
+Dockerfile
+requirements.txt

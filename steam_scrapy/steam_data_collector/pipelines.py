@@ -5,21 +5,31 @@
 
 
 from itemadapter import ItemAdapter
-import mysql.connector
-import secrets
-
+import secrets # The secret file that is included in .gitignore
+import pymysql
+import sshtunnel
 
 class SteamDataCollectorPipeline:
-    """Initializes connection to the AWS RDS MYSQL instance."""
     def open_spider(self, spider):
-        # self.db = mysql.connector.connect(
-        #     host = secrets.__path__,
-        #     user = secrets.__path__,
-        #     password = secrets.__path__ 
-        # )
-        # self.db.disconnect()
-        pass
+        """Initializes connection to the AWS RDS MYSQL instance."""
 
-    """Process the scraped data from Steam and upsert to the MYSQL table."""
+        self.db = pymysql.connect(
+            host = secrets.RDS_ENDPOINT,
+            port = secrets.RDS_PORT,
+            user = secrets.RDS_USER,
+            password = secrets.RDS_PASSWORD
+        )
+        self.cur = self.db.cursor()
+    
     def process_item(self, item, spider):
+        """Process the scraped data from Steam and upsert to the MYSQL table."""
         return item
+    
+    def close_spider(self, spider):
+        self.db.close()
+
+## DEBUGGING:
+
+if __name__ == "__main__":
+    spidy = SteamDataCollectorPipeline()
+    spidy.open_spider(None)

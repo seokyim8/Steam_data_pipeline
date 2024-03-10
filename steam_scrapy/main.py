@@ -17,6 +17,9 @@ def schedule_scraping():
     def run_scraper():
         subprocess.run(['scrapy', 'crawl', SPIDER_NAME])
     
+    # On startup, a single scraping process is initialized. After this point, the scraping occurs only on a regular basis.
+    run_scraper()
+
     scheduler = AsyncIOScheduler()
     # At 7:30 am every morning, the RDS MYSQL instance will be updated with info pertaining to the newly released steam games.
     scheduler.add_job(func = run_scraper, 

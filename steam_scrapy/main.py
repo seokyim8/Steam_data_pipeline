@@ -1,6 +1,3 @@
-# TODO: Create a "scheduler" that takes care of automatically activating scrapy crawling functionalities to regularly scrape 
-# new releases' data from steam. 
-
 import time
 import os
 import subprocess

@@ -13,7 +13,7 @@ class AsianspiderSpider(scrapy.Spider):
     allowed_domains = ["store.steampowered.com"]
     urls = ["https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english"] # Steam link for new releases
     save_file = "fetched_info.json" # Used for debugging
-    scroll_freq = 0 # TODO: CHANGE TO DESIRED NUMBER LATER!
+    scroll_freq = 19 # For about 1,000 total entries scraped
 
 
     def start_requests(self) -> Iterable[scrapy.Request]:
@@ -26,6 +26,8 @@ class AsianspiderSpider(scrapy.Spider):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--profile-directory=Default')
+        options.add_argument('--no-sandbox')
+
         self.driver = webdriver.Chrome(options = options)
 
         for url in self.urls:

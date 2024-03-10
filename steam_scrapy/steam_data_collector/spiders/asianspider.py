@@ -15,6 +15,7 @@ class AsianspiderSpider(scrapy.Spider):
     save_file = "fetched_info.json" # Used for debugging
     scroll_freq = 0 # TODO: CHANGE TO DESIRED NUMBER LATER!
 
+
     def start_requests(self) -> Iterable[scrapy.Request]:
         """Returns scraped data from each specified url after initializing webscraping request to Steam. Assigns a chrome webdriver to self.driver."""
         # Resetting result file for webscraping process

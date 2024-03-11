@@ -69,7 +69,7 @@ class AsianspiderSpider(scrapy.Spider):
         if price == None:
             # Means game has no price since it has not been released yet
             return None
-        price = price.strip()
+        price = price.strip().replace(",","")
 
         review_summary = response.css("span.game_review_summary::text").get()
         review_count = response.css("div.user_reviews_summary_bar span::text").getall()
@@ -78,14 +78,19 @@ class AsianspiderSpider(scrapy.Spider):
             review_summary = "None"
             review_count = 0
         else:
-            review_count = review_count[1].replace("(","").replace(")","").split(" ")[0]
+            review_count = review_count[1].replace("(","").replace(")","").split(" ")[0].replace(",","")
 
-        fetched = {"name": response.css("div[id='appHubAppName_responsive']::text").get(),
-               "developer": header_grid_content[0], "publisher": header_grid_content[1], 
-               "release_date": response.css("div[id='gameHeaderImageCtn'] div.grid_content.grid_date::text").get().strip(),
-               "genre": genre.strip(), "number_of_reviews": review_count, "url": response.url,
-               "app_id": re.split("/",  response.url)[4], "price": price, "review_summary": review_summary,
-               "fetched_date": str(date.today())}
+        fetched = {"name": response.css("div[id='appHubAppName_responsive']::text").get().replace("'",r"\'").replace('"',r'\"'),
+                "developer": header_grid_content[0].replace("'",r"\'").replace('"',r'\"'),
+                "publisher": header_grid_content[1].replace("'",r"\'").replace('"',r'\"'), 
+                "release_date": response.css("div[id='gameHeaderImageCtn'] div.grid_content.grid_date::text").get().strip(),
+                "genre": genre.strip().replace("'",r"\'").replace('"',r'\"'),
+                "number_of_reviews": review_count, 
+                "url": response.url,
+                "app_id": re.split("/",  response.url)[4], 
+                "price": price, 
+                "review_summary": review_summary.replace("'",r"\'").replace('"',r'\"'),
+                "fetched_date": str(date.today())}
         
         arr = []
         with Path(self.save_file).open("r") as f:

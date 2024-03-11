@@ -80,6 +80,7 @@ class SteamDataCollectorPipeline:
                          + f"{item["price"]},"
                          + f"'{item["review_summary"]}',"
                          + f"'{item["fetched_date"]}');")
+        self.cur.execute("UPDATE new_games SET number_of_reviews = {}, review_summary = '{}', fetched_date = '{}' WHERE app_id={};".format(item["number_of_reviews"], item["review_summary"],item["fetched_date"], item["app_id"]))
         self.db.commit()
 
         return item

@@ -16,17 +16,18 @@ ID: public<br>
 password: public<br>
 <br>
 ## Description:
-I frequently saw websites/projects with Steam-related data for popular(top 100) games, but never saw one primarily focused on new releases on Steam. Thus, I decided to make one myself.
+I frequently saw websites/projects with Steam-related data for popular(top 100) games but never saw one primarily focused on new releases on Steam. Thus, I decided to make one myself.
 ### Technologies Used:
 - Python, MYSQL, AWS(EC2, RDS), Docker, Scrapy, Apache Superset, Selenium
 ### Steps Taken:
 1) Created a Scrapy project that scrapes data from the official Steam website(https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english).
-2) Added selenium to deal with infinite scrolling. Created a python scheduler with apscheulder along with python asyncio.
+2) Added selenium to deal with infinite scrolling. Created a Python scheduler with Apscheulder along with Python asyncio.
 3) Launched an EC2 and RDS instance, each for persisting the program and running the MYSQL database, respectively.
-4) Created a Docker image that downloads the python dependencies along with the chrome browser.
-5) On EC2, Initialized the containerized project along with the containerized apache superset image.
-6) Made the dashboard publicly accessible.
+4) Created a Docker image that downloads the Python dependencies along with the Chrome browser.
+5) On EC2, initialized the containerized project along with the containerized Apache Superset image.
+6) Made the dashboard publicly available.
 <br>
-## Final Product:
+
+<h3>Final Product:</h3><br>
 - A dashboard/BI tool that updates every day at 7:30 am EST with 1,000 entries from Steam.
 - Contains visual expressions of the data that facilitate gamers/YouTubers/companies in understanding the latest trends in games.

@@ -26,8 +26,6 @@ I frequently saw websites/projects with Steam-related data for popular(top 100) 
 4) Created a Docker image that downloads the Python dependencies along with the Chrome browser.
 5) On EC2, initialized the containerized project along with the containerized Apache Superset image.
 6) Made the dashboard publicly available.
-<br>
-
 <h3>Final Product:</h3>
 - A dashboard/BI tool that updates every day at 7:30 am EST with 1,000 entries from Steam.
 - Contains visual expressions of the data that facilitate gamers/YouTubers/companies in understanding the latest trends in games.

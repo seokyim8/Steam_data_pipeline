@@ -17,6 +17,8 @@ Authentication for anonymous users (Anyone can view it with these credentials):<
 ID: public<br>
 password: public<br>
 <br>
+In case you miss the update, simply refresh the dashboard/charts.
+<br>
 ## Description:
 I frequently saw websites/projects with Steam-related data for popular(top 100) games but never saw one primarily focused on new releases on Steam. Thus, I decided to make one myself.
 ### Technologies Used:

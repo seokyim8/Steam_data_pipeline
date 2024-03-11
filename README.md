@@ -10,7 +10,7 @@ A data pipeline that regularly scrapes, cleans, stores, and publishes data for n
 *** Preview ***<br>
 Website link:<br>
 http://18.212.126.33:8080/superset/dashboard/1/?standalone=3&show_filters=1
-<br>
+<br><br>
 Authentication for anonymous users (Anyone can view it with these credentials):<br>
 ID: public<br>
 password: public<br>

@@ -1,5 +1,5 @@
 Creator: Seok Yim (Noah)
-<h2>Do you want to be the PIONEER of soon-to-POP-OFF games? Then you're gonna like this...</h2>
+<strong>Do you want to be the PIONEER of soon-to-POP-OFF games? Then you're gonna like this...</strong>
 Title: <strong>Steam Data Pipeline</strong>
 
 ## Project Summary: 

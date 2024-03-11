@@ -8,6 +8,8 @@ Title: <strong>Steam Data Pipeline</strong>
 A data pipeline that regularly scrapes, cleans, stores, and publishes data for newly released games on Steam. The data visualization is taken care of by Apache Superset (publicly accessible).
 <br><br>
 *** Preview ***<br>
+<img width="1680" alt="DASHBOARD" src="https://github.com/seokyim8/Steam_data_pipeline/assets/49558316/3a67cccb-c57c-439a-9f32-b2d0e6acaad2">
+<br>
 Website link:<br>
 http://18.212.126.33:8080/superset/dashboard/1/?standalone=3&show_filters=1
 <br><br>
@@ -26,6 +28,7 @@ I frequently saw websites/projects with Steam-related data for popular(top 100) 
 4) Created a Docker image that downloads the Python dependencies along with the Chrome browser.
 5) On EC2, initialized the containerized project along with the containerized Apache Superset image.
 6) Made the dashboard publicly available.
+
 <h3>Final Product:</h3>
 - A dashboard/BI tool that updates every day at 7:30 am EST with 1,000 entries from Steam.
 - Contains visual expressions of the data that facilitate gamers/YouTubers/companies in understanding the latest trends in games.

@@ -22,7 +22,7 @@ I frequently saw websites/projects with Steam-related data for popular(top 100) 
 ### Technologies Used:
 - Python, MYSQL, AWS(EC2, RDS), Docker, Scrapy, Apache Superset, Selenium
 ### Steps Taken:
-1) Created a Scrapy project that scrapes data from the official Steam website(https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english).
+1) Created a Scrapy project that scrapes data from the official Steam website (https://store.steampowered.com/search/?sort_by=Released_DESC&supportedlang=english).
 2) Added selenium to deal with infinite scrolling. Created a Python scheduler with Apscheulder along with Python asyncio.
 3) Launched an EC2 and RDS instance, each for persisting the program and running the MYSQL database, respectively.
 4) Created a Docker image that downloads the Python dependencies along with the Chrome browser.

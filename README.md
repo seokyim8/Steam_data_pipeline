@@ -1,6 +1,6 @@
 Creator: Seok Yim (Noah)
-<h1>Do you want to be the PIONEER of soon-to-POP-OFF games? Then you're gonna like this...</h1>
-## Title: Steam Data Pipeline
+<h2>Do you want to be the PIONEER of soon-to-POP-OFF games? Then you're gonna like this...</h2>
+Title: Steam Data Pipeline
 
 ## Project Summary: 
 A data pipeline that regularly scrapes, cleans, stores, and publishes data for newly released games on Steam. The data visualization is taken care of by Apache Superset (publicly accessible).

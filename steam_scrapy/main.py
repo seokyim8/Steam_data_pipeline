@@ -18,9 +18,18 @@ def schedule_scraping():
     run_scraper()
 
     scheduler = AsyncIOScheduler()
+
+    # Extra schedule for better scrping consistency
+    scheduler.add_job(func = run_scraper, 
+                      trigger = CronTrigger(year = "*", month = "*", day = "*", hour = "5", minute = "30"))
+    
     # At 7:30 am every morning, the RDS MYSQL instance will be updated with info pertaining to the newly released steam games.
     scheduler.add_job(func = run_scraper, 
                       trigger = CronTrigger(year = "*", month = "*", day = "*", hour = "7", minute = "30"))
+    
+    # Extra schedule for better scraping consistency
+    scheduler.add_job(func = run_scraper, 
+                      trigger = CronTrigger(year = "*", month = "*", day = "*", hour = "12", minute = "30"))
     scheduler.start()
 
     try:

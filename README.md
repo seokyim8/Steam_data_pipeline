@@ -17,8 +17,7 @@ Authentication for anonymous users (Anyone can view it with these credentials):<
 ID: public<br>
 password: public<br>
 <br>
-In case you miss the update, simply refresh the dashboard/charts.
-<br>
+
 ## Description:
 I frequently saw websites/projects with Steam-related data for popular(top 100) games but never saw one primarily focused on new releases on Steam. Thus, I decided to make one myself.
 ### Technologies Used:
@@ -32,5 +31,5 @@ I frequently saw websites/projects with Steam-related data for popular(top 100) 
 6) Made the dashboard publicly available.
 
 <h3>Final Product:</h3>
-- A dashboard/BI tool that updates every day at 7:30 am EST with 1,000 entries from Steam.<br>
-- Contains visual expressions of the data that facilitate gamers/YouTubers/companies in understanding the latest trends in games.
+- A dashboard/BI tool that updates every day at 7:30 am EST(with a couple extra updates during the day) with 1,000 entries from Steam.<br>
+- Contains visual expressions of the data that facilitate individuals in understanding the latest trends in games.

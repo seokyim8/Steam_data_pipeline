@@ -68,6 +68,7 @@ class SteamDataCollectorPipeline:
         item["release_date"] = format_release_date(item["release_date"])
         item["price"] = format_price(item["price"])
 
+        # Insert new entries
         self.cur.execute("INSERT IGNORE INTO new_games VALUES("
                          + f"'{item["name"]}',"
                          + f"'{item["developer"]}',"
@@ -80,7 +81,11 @@ class SteamDataCollectorPipeline:
                          + f"{item["price"]},"
                          + f"'{item["review_summary"]}',"
                          + f"'{item["fetched_date"]}');")
+        # Update overlapping items
         self.cur.execute("UPDATE new_games SET number_of_reviews = {}, review_summary = '{}', fetched_date = '{}' WHERE app_id={};".format(item["number_of_reviews"], item["review_summary"],item["fetched_date"], item["app_id"]))
+
+        # Delete old items (entries whose release dates are at least 15 days behind)
+        self.cur.execute("delete from new_games where release_date < date_sub(curdate(), interval 14 day);")
         self.db.commit()
 
         return item

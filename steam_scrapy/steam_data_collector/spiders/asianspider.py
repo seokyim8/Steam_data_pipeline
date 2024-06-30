@@ -27,7 +27,7 @@ class AsianspiderSpider(scrapy.Spider):
         options.add_argument('--headless')
         options.add_argument('--profile-directory=Default')
         options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage') # Added on Jun 20th, 2024 to prevent crawler from crashing
+        # options.add_argument('--disable-dev-shm-usage') # Instead of this line, just use "--shme-size=2g" when running the docker container
 
         self.driver = webdriver.Chrome(options = options)
 
